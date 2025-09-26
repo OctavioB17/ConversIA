@@ -39,6 +39,7 @@ export default class User {
 
     get id() { return this.props.id; }
     get email() { return this.props.email; }
+    get password() { return this.props.password; }
     get name() { return this.props.name.full }
     get isActive() { return this.props.isActive }
     get avatar() { return this.props.avatar }
