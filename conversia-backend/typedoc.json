@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["src/user/domain/**/*.ts"],
+  "entryPointStrategy": "expand",
+  "tsconfig": "tsconfig.json",
+  "out": "docs",
+  "excludeExternals": true,
+  "excludePrivate": true,
+  "excludeProtected": false,
+  "readme": "none"
+}
