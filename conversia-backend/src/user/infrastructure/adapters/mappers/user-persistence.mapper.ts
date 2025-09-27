@@ -6,6 +6,7 @@ import UserPassword from '../../../domain/value-objects/user-password.vo';
 import PersonName from '../../../domain/value-objects/person-name.vo';
 import UserAvatarUrl from '../../../domain/value-objects/avatar-url.vo';
 import UserRoleVo from '../../../domain/value-objects/user-role.vo';
+import CompanyId from '../../../domain/value-objects/company-id.vo';
 
 /**
  * Mapper for converting between User domain entity and Prisma persistence model.
@@ -25,10 +26,10 @@ export default class UserPersistenceMapper {
 			firstName: user.name.split(' ')[0] || '',
 			lastName: user.name.split(' ').slice(1).join(' ') || '',
 			avatar: user.avatar?.toString() || null,
+			companyId: user.companyId?.toString() || null,
 			isActive: user.isActive,
 			role: user.role.toString(),
 			emailVerifiedAt: user.emailVerifiedAt,
-			companyId: 'default-company', // TODO: Get from context
 		};
 	}
 
@@ -44,6 +45,7 @@ export default class UserPersistenceMapper {
 			password: UserPassword.fromHash(userData.password),
 			name: PersonName.create(userData.firstName, userData.lastName),
 			avatar: userData.avatar ? UserAvatarUrl.create(userData.avatar) : undefined,
+			companyId: userData.companyId ? CompanyId.create(userData.companyId) : undefined,
 			isActive: userData.isActive,
 			role: UserRoleVo.create(userData.role),
 			emailVerifiedAt: userData.emailVerifiedAt,

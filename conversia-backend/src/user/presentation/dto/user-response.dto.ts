@@ -28,6 +28,13 @@ export class UserResponseDto {
   avatar: string | null;
 
   @ApiProperty({
+    description: 'Company ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+    nullable: true
+  })
+  companyId: string | null;
+
+  @ApiProperty({
     description: 'User active status',
     example: true
   })

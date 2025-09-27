@@ -1,9 +1,11 @@
 import { CreateUserRequestDto } from '../dto/create-user-request.dto';
 import { UpdateUserRequestDto } from '../dto/update-user-request.dto';
+import { ConfirmEmailRequestDto } from '../dto/confirm-email-request.dto';
 import { UserResponseDto } from '../dto/user-response.dto';
 import { UserListResponseDto } from '../dto/user-list-response.dto';
 import CreateUserDto from '../../app/dto/create-user.dto';
 import UpdateUserDto from '../../app/dto/update-user.dto';
+import ConfirmEmailDto from '../../app/dto/confirm-email.dto';
 import AppUserResponseDto from '../../app/dto/user-response.dto';
 import AppUserListResponseDto from '../../app/dto/user-list-response.dto';
 
@@ -24,8 +26,8 @@ export class UserPresentationMapper {
       firstName: httpDto.firstName,
       lastName: httpDto.lastName,
       avatar: httpDto.avatar,
+      companyId: httpDto.companyId,
       role: httpDto.role,
-      companyId: 'default-company', // TODO: Get from context
     };
   }
 
@@ -54,6 +56,7 @@ export class UserPresentationMapper {
       email: appDto.email,
       name: appDto.name,
       avatar: appDto.avatar || null,
+      companyId: appDto.companyId || null,
       isActive: appDto.isActive,
       role: appDto.role,
       emailVerifiedAt: appDto.emailVerifiedAt || null,
@@ -74,6 +77,18 @@ export class UserPresentationMapper {
       page: appDto.page,
       limit: appDto.limit,
       totalPages: Math.ceil(appDto.total / appDto.limit),
+    };
+  }
+
+  /**
+   * Converts ConfirmEmailRequestDto (HTTP) to ConfirmEmailDto (Application).
+   * @param httpDto HTTP request DTO
+   * @returns Application DTO
+   */
+  static toConfirmEmailDto(httpDto: ConfirmEmailRequestDto): ConfirmEmailDto {
+    return {
+      email: httpDto.email,
+      verificationToken: httpDto.verificationToken,
     };
   }
 

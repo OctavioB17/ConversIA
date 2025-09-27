@@ -20,9 +20,32 @@ model User {
   isActive          Boolean   @default(false)
   role              String    @default("AGENT")
   emailVerifiedAt   DateTime?
-  companyId         String
+  companyId         String?
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
+  // Relations
+  authSessions      AuthSession[]
+
   @@map("users")
+}
+
+model AuthSession {
+  id                String    @id @default(uuid())
+  userId            String
+  accessToken       String    @unique
+  refreshToken      String    @unique
+  provider          String    // LOCAL, GOOGLE, FACEBOOK, GITHUB
+  deviceInfo        String?
+  ipAddress         String?
+  isActive          Boolean   @default(true)
+  expiresAt         DateTime
+  lastUsedAt        DateTime  @default(now())
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  // Relations
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("auth_sessions")
 }

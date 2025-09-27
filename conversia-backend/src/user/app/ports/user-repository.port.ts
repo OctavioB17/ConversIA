@@ -1,6 +1,7 @@
 import User from "src/user/domain/entities/user";
 import UserEmail from "src/user/domain/value-objects/user-email.vo";
 import UserId from "src/user/domain/value-objects/user-id.vo";
+import CompanyId from "src/user/domain/value-objects/company-id.vo";
 
 /**
  * Port for User repository operations.
@@ -33,7 +34,7 @@ export default interface UserRepositoryPort {
    * @param companyId Company identifier.
    * @returns Array of user entities.
    */
-	findByCompany(companyId: string): Promise<User[]>;
+	findByCompany(companyId: CompanyId): Promise<User[]>;
 
 	/**
    * Removes a user from persistence.

@@ -65,6 +65,15 @@ export class CreateUserRequestDto {
   avatar?: string;
 
 	@ApiProperty({
+    description: 'Company ID',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+    required: false
+  })
+  @IsOptional()
+  @IsString({ message: 'Company ID must be a string' })
+  companyId?: string;
+
+	@ApiProperty({
     description: 'User role',
     enum: UserRole,
     example: UserRole.AGENT,

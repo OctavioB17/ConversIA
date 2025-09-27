@@ -2,6 +2,7 @@ import UserId from "../value-objects/user-id.vo";
 import { UserProps } from "./types/user.props";
 import UserAvatarUrl from "../value-objects/avatar-url.vo";
 import PersonName from "../value-objects/person-name.vo";
+import CompanyId from "../value-objects/company-id.vo";
 import UserEmailConfirmedEvent from "../events/user-email-confirmed.event";
 import UserDeactivatedEvent from "../events/user-deactivated.event";
 import UserReactivatedEvent from "../events/user-reactivated.event";
@@ -43,10 +44,11 @@ export default class User {
     get name() { return this.props.name.full }
     get isActive() { return this.props.isActive }
     get avatar() { return this.props.avatar }
+    get companyId() { return this.props.companyId || null }
     get createdAt() { return this.props.createdAt }
     get updatedAt() { return this.props.updatedAt }
     get emailVerifiedAt() { return this.props.emailVerifiedAt ?? null }
-		get role() { return this.props.role }
+	get role() { return this.props.role }
 
     /**
      * Confirms the user's email and activates the account.
@@ -104,6 +106,34 @@ export default class User {
         this.props.isActive = true;
         this.props.updatedAt = new Date();
         this.events.push(new UserReactivatedEvent(this.props.id));
+    }
+
+    /**
+     * Verifies if the provided password matches the user's password hash.
+     * This method encapsulates password verification logic within the domain.
+     * @param passwordHasher Password hasher service to verify the password
+     * @param plainPassword Plain text password to verify
+     * @returns Promise<boolean> True if password is valid
+     */
+    async verifyPassword(passwordHasher: { verify(plain: string, hash: string): Promise<boolean> }, plainPassword: string): Promise<boolean> {
+        return await passwordHasher.verify(plainPassword, this.props.password.getHash());
+    }
+
+    /**
+     * Assigns the user to a company.
+     * @param companyId Company identifier to assign.
+     */
+    assignToCompany(companyId: CompanyId): void {
+        this.props.companyId = companyId;
+        this.props.updatedAt = new Date();
+    }
+
+    /**
+     * Removes the user from their current company.
+     */
+    removeFromCompany(): void {
+        this.props.companyId = undefined;
+        this.props.updatedAt = new Date();
     }
 
     /**

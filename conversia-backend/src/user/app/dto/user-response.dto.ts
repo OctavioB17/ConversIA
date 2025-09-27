@@ -11,6 +11,7 @@ export default class UserResponseDto {
   firstName: string;
   lastName: string;
   avatar?: string;
+  companyId?: string;
   isActive: boolean;
   role: UserRole;
   emailVerifiedAt?: Date | null;

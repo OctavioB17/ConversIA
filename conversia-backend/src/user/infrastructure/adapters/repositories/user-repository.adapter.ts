@@ -5,6 +5,7 @@ import UserRepositoryPort from "src/user/app/ports/user-repository.port";
 import User from "src/user/domain/entities/user";
 import UserEmail from "src/user/domain/value-objects/user-email.vo";
 import UserId from "src/user/domain/value-objects/user-id.vo";
+import CompanyId from "src/user/domain/value-objects/company-id.vo";
 
 @Injectable()
 export class UserRepositoryAdapter implements UserRepositoryPort {
@@ -43,9 +44,9 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
 			return UserPersistenceMapper.toDomain(userData)
 	}
 
-	async findByCompany(companyId: string): Promise<User[]> {
+	async findByCompany(companyId: CompanyId): Promise<User[]> {
 		const usersData = await this.prisma.user.findMany({
-			where: { companyId }
+			where: { companyId: companyId.toString() }
 		})
 
 		return usersData.map(usersData => UserPersistenceMapper.toDomain(usersData))

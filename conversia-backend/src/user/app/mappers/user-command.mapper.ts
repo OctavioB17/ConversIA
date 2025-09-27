@@ -5,6 +5,7 @@ import UserPassword from "src/user/domain/value-objects/user-password.vo";
 import PersonName from "src/user/domain/value-objects/person-name.vo";
 import UserAvatarUrl from "src/user/domain/value-objects/avatar-url.vo";
 import UserRoleVo from "src/user/domain/value-objects/user-role.vo";
+import CompanyId from "src/user/domain/value-objects/company-id.vo";
 import UpdateUserDto from "../dto/update-user.dto";
 
 /**
@@ -23,6 +24,7 @@ export default class UserCommandMapper {
 			password: UserPassword.fromHash(passwordHash),
 			name: PersonName.create(dto.firstName, dto.lastName),
 			avatar: dto.avatar ? UserAvatarUrl.create(dto.avatar) : undefined,
+			companyId: dto.companyId ? CompanyId.create(dto.companyId) : undefined,
 			role: UserRoleVo.create(dto.role || 'AGENT')
 		}
 	}

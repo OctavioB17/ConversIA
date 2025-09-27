@@ -19,8 +19,9 @@ export class UserResponseMapper {
 			firstName: user.name.split(' ')[0],
 			lastName: user.name.split(' ').slice(1).join(' '),
 			avatar: user.avatar?.toString(),
+			companyId: user.companyId?.toString(),
 			isActive: user.isActive,
-			role: user.role.toString(),
+			role: user.role.toString() as any,
 			emailVerifiedAt: user.emailVerifiedAt,
 			createdAt: user.createdAt,
 			updatedAt: user.updatedAt

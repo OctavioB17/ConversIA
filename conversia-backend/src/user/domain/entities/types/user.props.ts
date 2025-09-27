@@ -4,6 +4,7 @@ import UserId from "../../value-objects/user-id.vo";
 import UserPassword from "../../value-objects/user-password.vo";
 import PersonName from "../../value-objects/person-name.vo";
 import UserRoleVo from "../../value-objects/user-role.vo";
+import CompanyId from "../../value-objects/company-id.vo";
 
 /**
  * Shape of the User domain entity internal state.
@@ -19,6 +20,7 @@ export type UserProps = {
 	password: UserPassword,
 	name: PersonName,
 	avatar?: UserAvatarUrl,
+	companyId?: CompanyId,
 	isActive: boolean,
 	role: UserRoleVo,
 	emailVerifiedAt?: Date | null,
