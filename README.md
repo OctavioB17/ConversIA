@@ -111,17 +111,36 @@ conversIA es una plataforma completa que permite a múltiples empresas configura
 
 ### 🔧 Instalación Local
 
+#### Opción 1: Docker (Recomendado)
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/tu-usuario/conversia.git
+cd conversia
+
+# Configurar Docker Compose
+cp docker-compose.example.yml docker-compose.yml
+# Editar docker-compose.yml con tus credenciales
+
+# Configurar variables de entorno del backend
+cd conversia-backend
+cp env.example .env
+# Editar .env con tus credenciales
+
+# Iniciar todo el entorno con Docker
+npm run dev:up
+```
+
+#### Opción 2: Instalación Manual
+
 ```bash
 # Clonar el repositorio
 git clone https://github.com/tu-usuario/conversia.git
 cd conversia
 
 # Configurar variables de entorno
-cp .env.example .env
+cp conversia-backend/env.example conversia-backend/.env
 # Editar .env con tus credenciales
-
-# Iniciar servicios con Docker
-docker-compose up -d
 
 # Instalar dependencias del backend
 cd conversia-backend
@@ -137,12 +156,25 @@ npm install
 npm run dev:all
 ```
 
+### 🐳 Comandos Docker
+
+```bash
+# Desde conversia-backend/
+npm run dev:up      # Levantar todo el entorno
+npm run dev:down    # Detener servicios
+npm run dev:logs    # Ver logs en tiempo real
+npm run dev:clean   # Limpiar volúmenes y contenedores
+```
+
 ### 🌐 URLs de Desarrollo
 
-- **Frontend:** http://localhost:3000
-- **Backend:** http://localhost:3001
-- **API Docs:** http://localhost:3001/api
-- **PgAdmin:** http://localhost:5050
+| Servicio | URL | Credenciales |
+|----------|-----|--------------|
+| **Frontend** | http://localhost:3001 | - |
+| **Backend API** | http://localhost:3000 | - |
+| **API Docs (Swagger)** | http://localhost:3000/api | - |
+| **PgAdmin** | http://localhost:5050 | admin@conversia.com / admin123 |
+| **PostgreSQL** | localhost:5432 | conversia_user / conversia_password |
 
 ## 📁 Estructura del Proyecto
 

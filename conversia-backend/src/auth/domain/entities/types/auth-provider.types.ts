@@ -1,13 +1,9 @@
 /**
- * Enum representing supported OAuth2 providers.
+ * Enum representing supported authentication providers.
  */
 export enum AuthProvider {
 	LOCAL = 'LOCAL',
 	GOOGLE = 'GOOGLE',
-	GITHUB = 'GITHUB',
-	MICROSOFT = 'MICROSOFT',
-	FACEBOOK = 'FACEBOOK',
-	LINKEDIN = 'LINKEDIN',
 }
 
 export type OAuth2Config = {

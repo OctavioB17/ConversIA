@@ -15,7 +15,7 @@ import { AuthProvider } from '../../../domain/entities/types/auth-provider.types
 export class OAuth2ServiceAdapter implements OAuth2ServicePort {
 	/**
 	 * Generates OAuth2 authorization URL.
-	 * @param provider OAuth2 provider (google, facebook, github)
+	 * @param provider OAuth2 provider (google)
 	 * @param state CSRF protection state parameter
 	 * @returns Authorization URL for OAuth2 flow
 	 */
@@ -112,19 +112,14 @@ export class OAuth2ServiceAdapter implements OAuth2ServicePort {
 	private getProviderConfig(provider: OAuthProvider): any {
 		const providerType = provider.toString().toLowerCase();
 		
-		switch (providerType) {
-			case 'google':
-				return oauth2Config.google;
-			case 'facebook':
-				return oauth2Config.facebook;
-			case 'github':
-				return oauth2Config.github;
-			default:
-				throw new HttpException(
-					`Unsupported OAuth2 provider: ${providerType}`,
-					HttpStatus.BAD_REQUEST
-				);
+		if (providerType === 'google') {
+			return oauth2Config.google;
 		}
+		
+		throw new HttpException(
+			`Unsupported OAuth2 provider: ${providerType}. Only Google is supported.`,
+			HttpStatus.BAD_REQUEST
+		);
 	}
 
 	/**
@@ -168,9 +163,9 @@ export class OAuth2ServiceAdapter implements OAuth2ServicePort {
 	}
 
 	/**
-	 * Normalizes user information from different OAuth2 providers.
-	 * @param userInfo Raw user information from provider
-	 * @param provider Provider name
+	 * Normalizes user information from Google OAuth2 provider.
+	 * @param userInfo Raw user information from Google
+	 * @param provider Provider name (should be 'google')
 	 * @returns Normalized user information
 	 */
 	private normalizeUserInfo(userInfo: any, provider: string): {
@@ -179,35 +174,18 @@ export class OAuth2ServiceAdapter implements OAuth2ServicePort {
 		name: string;
 		avatar?: string;
 	} {
-		switch (provider.toLowerCase()) {
-			case 'google':
-				return {
-					id: userInfo.id,
-					email: userInfo.email,
-					name: userInfo.name,
-					avatar: userInfo.picture,
-				};
-			case 'facebook':
-				return {
-					id: userInfo.id,
-					email: userInfo.email,
-					name: userInfo.name,
-					avatar: userInfo.picture?.data?.url,
-				};
-			case 'github':
-				return {
-					id: userInfo.id.toString(),
-					email: userInfo.email,
-					name: userInfo.name || userInfo.login,
-					avatar: userInfo.avatar_url,
-				};
-			default:
-				return {
-					id: userInfo.id,
-					email: userInfo.email,
-					name: userInfo.name,
-					avatar: userInfo.avatar || userInfo.picture,
-				};
+		if (provider.toLowerCase() === 'google') {
+			return {
+				id: userInfo.id,
+				email: userInfo.email,
+				name: userInfo.name,
+				avatar: userInfo.picture,
+			};
 		}
+		
+		throw new HttpException(
+			`Unsupported OAuth2 provider: ${provider}. Only Google is supported.`,
+			HttpStatus.BAD_REQUEST
+		);
 	}
 }
